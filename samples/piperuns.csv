@@ -1,0 +1,5 @@
+Oid,Name,PipelineName,Spec,MaxOperatingTemp_C,OperatingTemp_C,DesignTemp_C,InsulationPurpose,InsulationThickness,InsulationSpec,IsUnderground,ExistingPaintCode
+demo-1,Run 1,Line 1,1CBB01,60,55,100,None,0,,false,
+demo-2,Run 2,Line 2,1ALA01,,20,50,Heat Conservation,25,,false,
+demo-3,Run 3,Line 3,1CBB01,150,140,200,H3,30,,false,
+demo-4,Run 4,Line 4,UNKNOWN,60,55,100,None,0,,false,

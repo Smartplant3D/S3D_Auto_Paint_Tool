@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net462</TargetFramework>
+    <AssemblyName>S3D_Auto_Paint_Tool</AssemblyName>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <_EnableDefaultWindowsPlatform>false</_EnableDefaultWindowsPlatform>
+    <S3DReferencePath Condition="'$(S3DReferencePath)' == ''">C:\Program Files (x86)\Smart3D\Core\Container\Bin\Assemblies\Release</S3DReferencePath>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PaintRules\PaintRules.csproj" />
+    <ProjectReference Include="..\Reporting\Reporting.csproj" />
+    <ProjectReference Include="..\S3DAdapter\S3DAdapter.csproj" />
+    <Reference Include="CommonClient"><HintPath>$(S3DReferencePath)\CommonClient.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="CommonMiddle"><HintPath>$(S3DReferencePath)\CommonMiddle.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="CommonRouteMiddle"><HintPath>$(S3DReferencePath)\CommonRouteMiddle.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Intergraph.CommonToolkit.Client"><HintPath>$(S3DReferencePath)\..\..\SxS\Intergraph\Intergraph.CommonToolkit.Client.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Web.Extensions" />
+    <Content Include="..\config\*.*" Link="config\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <Target Name="ValidateS3DReferences" BeforeTargets="ResolveReferences">
+    <Error Condition="!Exists('$(S3DReferencePath)\CommonClient.dll')" Text="Set S3DReferencePath to the installed Smart 3D managed assembly directory." />
+  </Target>
+</Project>

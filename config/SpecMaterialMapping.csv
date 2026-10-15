@@ -1,0 +1,5 @@
+Spec,MaterialCategory,MaterialGroup,Status,Source,Revision,Notes
+1CBB01,CS,Carbon Steel,Active,Project BOM,,
+1ALA01,AL,Aluminum Alloy 5083 O temper,Active,PCS Workbook,,
+WSC020,SS,Stainless Steel 304/304L,Obsolete,PCS,Rev.10,Do not use
+ZCSC81,CS,Carbon Steel,Project,PCS,,Underground CW

@@ -1,0 +1,20 @@
+Project,MaterialCategory,InsulationCondition,TempMin,TempMax,BandRank,PaintCode,AutoAssignable,Notes
+EN250186,CS,Exposed,-40,93,1,C093U3,Y,
+EN250186,CS,Insulated,-40,93,1,C093N,Y,
+EN250186,CS,H3,-40,93,1,C093U3,Y,
+EN250186,CS,Exposed,-40,230,2,C230U,N,Alternative TSA230U
+EN250186,CS,Exposed,-40,230,2,TSA230U,N,Alternative C230U
+EN250186,CS,Insulated,-40,230,2,C230N,N,Alternative TSA230N
+EN250186,CS,Insulated,-40,230,2,TSA230N,N,Alternative C230N
+EN250186,CS,H3,-40,230,2,C230U,Y,
+EN250186,CS,Exposed,-40,400,3,C400U,N,Alternative TSA400U
+EN250186,CS,Exposed,-40,400,3,TSA400U,N,Alternative C400U
+EN250186,CS,Insulated,-40,400,3,TSA400N,Y,
+EN250186,CS,H3,-40,400,3,C400U,Y,
+EN250186,SS,*,-196,649,4,NOPT,Y,
+EN250186,AL,*,-196,649,4,NOPT,Y,
+EN250186,GALV,*,,,0,NOPT,Y,Typically no paint
+EN250186,HDPE,*,,,0,NOPT,Y,Typically no paint
+EN250186,CPVC,*,,,0,NOPT,Y,Typically no paint
+EN250186,NI,*,,,0,NOPT,Y,Monel - typically no paint
+EN250186,CU,*,,,0,NOPT,Y,Typically no paint
