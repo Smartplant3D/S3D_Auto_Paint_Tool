@@ -44,10 +44,6 @@ public sealed class PaintRuleEngine
         EvaluationResult Result(PaintStatus status, string reason) =>
             new(run, material, group, specStatus, insulation, codes, resultCode, status, reason);
 
-        if (run.IsUnderground == true) return Result(PaintStatus.NOT_APPLICABLE, "Underground piping");
-        if (run.IsUnderground is null && !config.Settings.IgnoreUnknownUnderground)
-            return Result(PaintStatus.REVIEW, "Underground flag unknown");
-
         string spec = (run.Spec ?? "").Trim().ToUpperInvariant();
         if (spec.Length == 0) return Result(PaintStatus.REVIEW, "Spec missing");
         if (!config.SpecMaterials.TryGetValue(spec, out var mapped))

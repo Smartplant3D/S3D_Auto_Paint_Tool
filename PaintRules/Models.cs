@@ -9,7 +9,7 @@ public sealed record PipeRunData(
     string Oid, string Name, string PipelineName, string? Spec,
     decimal? MaxOperatingTemp, decimal? OperatingTemp, decimal? DesignTemp,
     string? InsulationPurpose, decimal? InsulationThickness, string? InsulationSpec,
-    bool? IsUnderground, string? ExistingPaintCode,
+    string? ExistingPaintCode,
     IReadOnlyDictionary<string, bool?>? SpecialFlags = null);
 
 public sealed record SpecMaterial(string Spec, MaterialCategory Category, string MaterialGroup,
@@ -20,7 +20,7 @@ public sealed record PaintingRule(string Project, MaterialCategory Category, str
 
 public sealed record AppSettings(string Project, string MappingVersion, string PaintRuleVersion,
     bool UseLowestApplicableBand, InsulationCondition PersonnelProtectionAs, bool DryRun,
-    bool OverwriteExistingPaintCode, bool IgnoreUnknownUnderground = false);
+    bool OverwriteExistingPaintCode);
 
 public sealed record EvaluationResult(PipeRunData Run, MaterialCategory MaterialCategory,
     string MaterialGroup, string SpecStatus, InsulationCondition InsulationCondition,

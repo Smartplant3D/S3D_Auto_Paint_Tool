@@ -14,9 +14,6 @@ namespace YYB
     // Called only on the S3D command thread. BusinessObjects must not be used by report workers.
     internal sealed class PipeRunScanner
     {
-        private readonly HostOptions options;
-        internal PipeRunScanner(HostOptions options) { this.options = options; }
-
         internal List<RunObject> ReadWorkingSet()
         {
             var filter = new Filter();
@@ -41,7 +38,6 @@ namespace YYB
                     InsulationPurpose(obj),
                     InsulationThickness(obj),
                     ReadInsulationSpec(obj),
-                    ReadUnderground(obj),
                     CodeName(obj, "IJCoatingInfo", "CoatingType"),
                     // The standard's key service conditions have no confirmed source fields.
                     new Dictionary<string, bool?> { ["KeyServiceCondition"] = null });
@@ -83,18 +79,6 @@ namespace YYB
                 ClientServiceProvider.TransactionMgr.Abort();
                 throw;
             }
-        }
-
-        private bool? ReadUnderground(BusinessObject obj)
-        {
-            if (string.IsNullOrWhiteSpace(options.UndergroundInterface) ||
-                string.IsNullOrWhiteSpace(options.UndergroundProperty)) return null;
-            var text = Text(obj, options.UndergroundInterface, options.UndergroundProperty);
-            if (text == null) return null;
-            if (bool.TryParse(text, out var flag)) return flag;
-            if (text == "1") return true;
-            if (text == "0") return false;
-            return null;
         }
 
         private static string? ReadSpec(BusinessObject obj)

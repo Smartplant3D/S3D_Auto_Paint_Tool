@@ -21,7 +21,7 @@
 | `S3DAdapter` | 读写契约和温度换算 |
 | `S3DHost` | S3D 自定义命令、PipeRun 扫描、预览、CodeList 验证与事务写回 |
 
-规则引擎遵循 SPEC §5 顺序：埋地 → Spec → 保温 → 特殊条件 → 温度与规则 → 候选唯一性 → 现值比较 → 写入意图。`UseLowestApplicableBand` 默认关闭。公司标准的特殊条件只触发复核；CS 有保温且操作温度高于 177°C 时只附加 N1 提示。
+规则引擎遵循 SPEC §5 顺序：Spec → 保温 → 特殊条件 → 温度与规则 → 候选唯一性 → 现值比较 → 写入意图。工具不读取或判断地上/地下。`UseLowestApplicableBand` 默认关闭。公司标准的特殊条件只触发复核；CS 有保温且操作温度高于 177°C 时只附加 N1 提示。
 
 ## 预览界面建议（Phase 2/3）
 
@@ -30,8 +30,8 @@
 ## 待目标 Plant 验证的信息
 
 - 当前宿主命令已按兄弟项目的 `Piping\PipingRuns` 和 `IJCoatingInfo.CoatingType` 实现；需在目标 S3D 版本/Plant 验证。
-- Spec、操作温度、保温的实际属性值和 CodeList；埋地标识的接口名尚未取得，默认全部标记 `REVIEW`。原始温度单位已更正确认为 K。
-- H3/PP 的真实 CodeList 值；如模型没有埋地属性，是否启用 `IgnoreUnknownUnderground`。
+- Spec、操作温度、保温的实际属性值和 CodeList；原始温度单位已更正确认为 K。
+- H3/PP 的真实 CodeList 值。
 - 完整 Spec 映射、最低档开关和多候选选择依据。
 - 标准防腐逻辑图的连线及关键服务条件表。
 

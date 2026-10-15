@@ -21,7 +21,6 @@ var data = Csv.Read(input).Select(x => new PipeRunData(
     ConfigLoader.Number(x["MaxOperatingTemp_C"]), ConfigLoader.Number(x["OperatingTemp_C"]),
     ConfigLoader.Number(x["DesignTemp_C"]), x["InsulationPurpose"],
     ConfigLoader.Number(x["InsulationThickness"]), x["InsulationSpec"],
-    string.IsNullOrWhiteSpace(x["IsUnderground"]) ? null : bool.Parse(x["IsUnderground"]),
     x["ExistingPaintCode"])).ToList();
 var results = data.Select(engine.Evaluate).ToList();
 var now = DateTimeOffset.Now;

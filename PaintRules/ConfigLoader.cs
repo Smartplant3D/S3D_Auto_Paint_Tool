@@ -16,8 +16,7 @@ public static class ConfigLoader
             settingsDto.UseLowestApplicableBand ?? throw new InvalidDataException("Missing UseLowestApplicableBand"),
             ParseEnum<InsulationCondition>(Required(settingsDto.PersonnelProtectionAs, "PersonnelProtectionAs")),
             settingsDto.DryRun ?? throw new InvalidDataException("Missing DryRun"),
-            settingsDto.OverwriteExistingPaintCode ?? throw new InvalidDataException("Missing OverwriteExistingPaintCode"),
-            settingsDto.IgnoreUnknownUnderground);
+            settingsDto.OverwriteExistingPaintCode ?? throw new InvalidDataException("Missing OverwriteExistingPaintCode"));
         if (settings.PersonnelProtectionAs is not (InsulationCondition.Exposed or InsulationCondition.Insulated or InsulationCondition.Review))
             throw new InvalidDataException("PersonnelProtectionAs must be Exposed, Insulated or Review");
 
@@ -78,6 +77,5 @@ public static class ConfigLoader
         public string? PersonnelProtectionAs { get; set; }
         public bool? DryRun { get; set; }
         public bool? OverwriteExistingPaintCode { get; set; }
-        public bool IgnoreUnknownUnderground { get; set; }
     }
 }

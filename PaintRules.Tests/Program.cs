@@ -18,10 +18,10 @@ void Check(int id, PipeRunData run, PaintStatus expected, string[]? codes = null
 }
 
 PipeRunData Run(string? spec, decimal? temp, string purpose = "None", decimal? thickness = 0,
-    string? existing = null, bool? underground = false,
+    string? existing = null,
     IReadOnlyDictionary<string, bool?>? flags = null) =>
     new("oid", "run", "pipeline", spec, temp, null, null, purpose, thickness, null,
-        underground, existing, flags);
+        existing, flags);
 
 Check(1, Run("1CBB01", 60), PaintStatus.WOULD_SET, ["C093U3"]);
 Check(2, Run("1CBB01", 60), PaintStatus.REVIEW,
@@ -47,7 +47,7 @@ Check(19, Run(" 1cbb01 ", 60, "Heat Conservation", 25), PaintStatus.WOULD_SET, [
 Check(20, Run("1CBB01", 60, "Personnel Protection", 25), PaintStatus.REVIEW);
 Check(21, Run("1CBB01", 60, "Personnel Protection", 25), PaintStatus.WOULD_SET,
     ["C093U3"], ppAs: InsulationCondition.Exposed);
-Check(22, Run("1CBB01", 60, underground: true), PaintStatus.NOT_APPLICABLE);
+Check(22, Run(null, 60), PaintStatus.REVIEW, reasonContains: "Spec missing");
 Check(23, Run("1CBB01", 60, "Heat Conservation", 25,
     flags: new Dictionary<string, bool?> { ["C5"] = true }), PaintStatus.REVIEW,
     reasonContains: "C5");
@@ -72,7 +72,7 @@ finally { Directory.Delete(duplicate, true); }
 // Additional guards around source precedence, unknown flags and exact mapping.
 Check(28, Run("1CBB01", 60, "Heat Conservation", 25, flags:
     new Dictionary<string, bool?> { ["N5"] = null }), PaintStatus.REVIEW, reasonContains: "N5");
-Check(29, Run("1CBB01", 60, underground: null), PaintStatus.REVIEW, reasonContains: "Underground");
+Check(29, Run("1CBB01", null) with { OperatingTemp = 60 }, PaintStatus.WOULD_SET, ["C093U3"]);
 Check(30, Run("1CBB01-extra", 60), PaintStatus.REVIEW, reasonContains: "not mapped");
 if (TemperatureUnits.KelvinToCelsius(273.15m) != 0m ||
     TemperatureUnits.KelvinToCelsius(373.15m) != 100m ||

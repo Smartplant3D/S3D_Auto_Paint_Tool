@@ -34,7 +34,7 @@
 | AL | Aluminum 铝 |
 | C3/C4/C5/CX | ISO 12944 大气腐蚀等级，C5/CX 为严重腐蚀环境 |
 | CUI | Corrosion Under Insulation 保温层下腐蚀 |
-| Underground | 埋地管道 |
+| Underground | 埋地管道；工具不再读取或判断此项（项目负责人 2026-10-15 更正） |
 
 ---
 
@@ -42,7 +42,7 @@
 
 ### 2.1 适用范围
 
-1. 本规则**不适用于埋地管道（Underground piping）**。埋地 PipeRun → 状态 `NOT_APPLICABLE`，不修改。
+1. 项目负责人 2026-10-15 确认：本工具取消地上/地下判断，所有 PipeRun 按相同涂漆规则评估。原规则表关于埋地的排除条件不再作为程序判定条件。
 2. 需要涂漆的材料：**Carbon Steel（保温的和不保温的）**。
 3. 通常不需要涂漆（Paint Code = `NOPT`）的材料：
    - Stainless Steel（保温和不保温）
@@ -235,9 +235,6 @@ H3,H3
 
 ```text
 Evaluate(run):
-  if run.IsUnderground == true          → NOT_APPLICABLE
-  if run.IsUnderground == null          → REVIEW "Underground flag unknown"   [若模型无此属性可配置为忽略]
-
   spec = Normalize(run.Spec)
   if spec empty                         → REVIEW "Spec missing"
   m = SpecMap.TryGet(spec)
@@ -300,7 +297,7 @@ S3DPaintTool.sln
 `PipeRunData` 字段：
 ```
 Oid, Name, PipelineName, Spec, MaxOperatingTemp?, OperatingTemp?, DesignTemp?,
-InsulationPurpose, InsulationThickness?, InsulationSpec, IsUnderground?,
+InsulationPurpose, InsulationThickness?, InsulationSpec,
 SpecialFlags (Dictionary<string,bool?>), ExistingPaintCode
 ```
 
@@ -313,7 +310,6 @@ SpecialFlags (Dictionary<string,bool?>), ExistingPaintCode
   - Spec（Piping Materials Class）
   - Max Operating Temperature / Operating Temperature / Design Temperature 的属性名 [OWNER-TBD]；目标模型的原始温度单位为 K（项目负责人 2026-10-15 更正确认），读取后按 `K - 273.15` 换算为 °C，不预先四舍五入
   - Insulation Purpose / Thickness / Spec（H3 识别）
-  - Underground 标识
   - Paint Code 写入的目标属性：用户提供的 `PaintingImport_Template.xlsx` 指向 `IJCoatingInfo.CoatingType`（示例 C 列 `10011`，J208 为 `10011 = NOPT`）；仍需在目标 Plant 的 PipeRun 上验证接口和 CodeList。规则已统一为模板名称 `C093U3`，10 个规则代码均与模板精确匹配，详见 `TEMPLATE_EVIDENCE.md`
 - 如果 Paint Code 是 CodeList 属性，写入前检查值存在；不存在 → ERROR “Paint code not in CodeList”。
 - 写入在单个事务中批量执行；任何异常 → Abort 并报告。
@@ -361,7 +357,7 @@ SpecialFlags (Dictionary<string,bool?>), ExistingPaintCode
 | 19 | " 1cbb01 " | 60 | Insulated | true | 同 #3 |
 | 20 | 1CBB01 | 60 | PP（PersonnelProtectionAs=Review）| true | REVIEW |
 | 21 | 1CBB01 | 60 | PP（PersonnelProtectionAs=Exposed）| true | WOULD_SET C093U3 |
-| 22 | 1CBB01 | 60 | Exposed，IsUnderground=true | any | NOT_APPLICABLE |
+| 22 | null | 60 | Exposed | any | REVIEW（缺 Spec） |
 | 23 | 1CBB01 | 60 | Insulated，特殊标记 C5=true | true | REVIEW |
 | 24 | 1CBB01 | 60 | Insulated，现值 C093N | true | OK |
 | 25 | 1CBB01 | 60 | Insulated，现值 C230N，不覆盖 | true | MISMATCH |

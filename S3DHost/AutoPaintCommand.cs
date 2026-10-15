@@ -4,7 +4,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Web.Script.Serialization;
 using System.Windows.Forms;
 using Ingr.SP3D.Common.Client;
 using Ingr.SP3D.Common.Client.Services;
@@ -38,11 +37,9 @@ namespace YYB
                     throw new DirectoryNotFoundException("Auto Paint config directory is missing: " + configDir +
                         "\nCopy the config folder beside S3D_Auto_Paint_Tool.dll.");
                 var config = ConfigLoader.Load(configDir);
-                var hostOptions = new JavaScriptSerializer().Deserialize<HostOptions>(
-                    File.ReadAllText(Path.Combine(configDir, "s3d-host.json"))) ?? new HostOptions();
                 var reportPath = ChooseReportPath();
                 if (reportPath == null) return;
-                var scanner = new PipeRunScanner(hostOptions);
+                var scanner = new PipeRunScanner();
                 var objects = scanner.ReadWorkingSet();
                 var engine = new PaintRuleEngine(config);
                 var results = objects.Select(x => engine.Evaluate(x.Data)).ToList();
@@ -116,9 +113,4 @@ namespace YYB
         }
     }
 
-    public sealed class HostOptions
-    {
-        public string UndergroundInterface { get; set; } = "";
-        public string UndergroundProperty { get; set; } = "";
-    }
 }

@@ -20,7 +20,7 @@ dotnet run --project PaintRules.Tests
 
 ## 上线前必须补齐的模型信息
 
-`config/s3d-host.json` 中的 `UndergroundInterface`、`UndergroundProperty` 尚未确定；默认空值会令所有埋地状态未知的 PipeRun 进入 `REVIEW`。不要把 `IgnoreUnknownUnderground` 改为 `true`，除非已确认输入范围全部不是埋地管道。`IJRteInsulation.Purpose/Thickness` 和操作温度接口也需要用目标 Plant 进行只读验证，读取失败将落入 `REVIEW`。
+工具按项目负责人 2026-10-15 的决定，不读取或判断地上/地下。`IJRteInsulation.Purpose/Thickness` 和操作温度接口仍需用目标 Plant 进行只读验证；读取失败将落入 `REVIEW`。
 
 `config/SpecMaterialMapping.csv` 目前只有 SPEC 提供的示例 Spec；需补充项目完整映射。`UseLowestApplicableBand=false` 与重叠温度段使多数 CS 行进入 `REVIEW`。H3、PP 与特殊服务条件也需在真实模型确认。只有这些数据补齐并在目标 Plant 做 DryRun 核对后，才能把 `DryRun` 设为 `false` 进行自动写回。
 
